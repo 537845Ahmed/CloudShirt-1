@@ -21,4 +21,6 @@ fi
 
 echo "API image built successfully."
 
-echo "All Docker images built successfully!"
+# commando's pushen naar ECR
+# 
+# 
