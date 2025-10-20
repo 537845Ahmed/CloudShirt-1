@@ -1,25 +1,45 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
+# --------------------------------------
+# 1. Base runtime image
+# --------------------------------------
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
+# --------------------------------------
+# 2. Build stage
+# --------------------------------------
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /app
+
+# Kopieer alleen projectbestanden (voor caching)
+COPY ["src/PublicApi/PublicApi.csproj", "src/PublicApi/"]
+COPY ["src/ApplicationCore/ApplicationCore.csproj", "src/ApplicationCore/"]
+COPY ["src/Infrastructure/Infrastructure.csproj", "src/Infrastructure/"]
+COPY ["src/BlazorShared/BlazorShared.csproj", "src/BlazorShared/"]
+
+# Restore dependencies
+RUN dotnet restore "src/PublicApi/PublicApi.csproj"
+
+# Kopieer de rest van de broncode
 COPY . .
-#COPY ["src/PublicApi/PublicApi.csproj", "./PublicApi/"]
-#RUN dotnet restore "./PublicApi/PublicApi.csproj"
-#COPY . .
+
+# Build PublicApi
 WORKDIR "/app/src/PublicApi"
-RUN dotnet restore
+RUN dotnet build "PublicApi.csproj" -c Release -o /app/build
 
-RUN dotnet build "./PublicApi.csproj" -c Release -o /app/build
-
+# --------------------------------------
+# 3. Publish stage
+# --------------------------------------
 FROM build AS publish
-RUN dotnet publish "./PublicApi.csproj" -c Release -o /app/publish
+RUN dotnet publish "PublicApi.csproj" -c Release -o /app/publish
 
+# --------------------------------------
+# 4. Runtime stage
+# --------------------------------------
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+# Belangrijk: bind Kestrel aan alle netwerken
+ENV ASPNETCORE_URLS=http://0.0.0.0:80
 ENTRYPOINT ["dotnet", "PublicApi.dll"]
