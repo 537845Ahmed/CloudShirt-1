@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # --- Configuratie ---
-SOURCE_FILE="connectionstring.txt"
+SOURCE_FILE="connectionstring.txt" # VERVANG NAAR EFS
 TARGET_FILE="src/Web/appsettings.json"
 SEARCH_PATTERN="<RDS-ENDPOINT>"
 
