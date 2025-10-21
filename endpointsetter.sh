@@ -28,5 +28,14 @@ if [[ -f "docker-stack.yml" ]]; then
   echo "Vervanging voltooid in docker-stack.yml"
 fi
 
+# --- ACCOUNT ID VERVANGING ---
+ACCOUNT_PLACEHOLDER="<ACCOUNT-ID>"
+
+if [[ -n "$AWS_ACCOUNT_ID" ]]; then
+  sed -i "s|$ACCOUNT_PLACEHOLDER|$AWS_ACCOUNT_ID|g" "docker-stack.yml"
+  echo "Vervanging voltooid: '$ACCOUNT_PLACEHOLDER' → '$AWS_ACCOUNT_ID' in docker-stack.yml"
+else
+  echo "Waarschuwing: AWS_ACCOUNT_ID niet ingesteld, skipping account-ID vervanging."
+fi
 
 echo "Vervanging voltooid: '$SEARCH_PATTERN' → '$STRING_TO_INSERT' in $TARGET_FILE"
