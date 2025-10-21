@@ -4,7 +4,7 @@ API_DOCKERFILE="src/PublicApi/Dockerfile"
 WEB_IMAGE_NAME="eshopwebmvc"
 API_IMAGE_NAME="eshoppublicapi"
 AWS_REGION="us-east-1"
-AWS_ACCOUNT_ID="VUL IN"
+AWS_ACCOUNT_ID="730335381450"
 
 aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
