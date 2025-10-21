@@ -1,8 +1,8 @@
 # --- Configuratie ---
 WEB_DOCKERFILE="src/Web/Dockerfile"
 API_DOCKERFILE="src/PublicApi/Dockerfile"
-WEB_IMAGE_NAME="web"
-API_IMAGE_NAME="publicapi"
+WEB_IMAGE_NAME="eshopwebmvc"
+API_IMAGE_NAME="eshoppublicapi"
 AWS_REGION="us-east-1"
 AWS_ACCOUNT_ID="VUL IN"
 
