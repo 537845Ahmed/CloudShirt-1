@@ -28,8 +28,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
-      - ConnectionStrings__CatalogConnection=Server=cloudshirt-db.ctuckmei09i6.us-east-1.rds.amazonaws.com;Database=Microsoft.eShopOnWeb.CatalogDb;User Id=csadmin;Password=Welkom123!;Pooling=False;Connect Timeout=30;
-      - ConnectionStrings__IdentityConnection=Server=cloudshirt-db.ctuckmei09i6.us-east-1.rds.amazonaws.com;Database=Microsoft.eShopOnWeb.Identity;User Id=csadmin;Password=Welkom123!;Pooling=False;Connect Timeout=30;
+      - ConnectionStrings__CatalogConnection=Server=<RDS-ENDPOINT>;Database=Microsoft.eShopOnWeb.CatalogDb;User Id=csadmin;Password=Welkom123!;Pooling=False;Connect Timeout=30;
+      - ConnectionStrings__IdentityConnection=Server=<RDS-ENDPOINT>;Database=Microsoft.eShopOnWeb.Identity;User Id=csadmin;Password=Welkom123!;Pooling=False;Connect Timeout=30;
       - PublicApi__BaseUrl=http://eshoppublicapi
     dns:
       - 169.254.169.253
