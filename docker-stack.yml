@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+  eshoppublicapi:
+    image: 730335381450.dkr.ecr.us-east-1.amazonaws.com/eshoppublicapi:latest
+    ports:
+      - "5098:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ConnectionStrings__CatalogConnection=Server=cloudshirt-db.ctuckmei09i6.us-east-1.rds.amazonaws.com;Database=Microsoft.eShopOnWeb.CatalogDb;User Id=csadmin;Password=Welkom123!;
+    dns:
+      - 169.254.169.253
+    networks:
+      - cloudshirt-net
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - node.role == worker
+
+  eshopwebmvc:
+    image: 730335381450.dkr.ecr.us-east-1.amazonaws.com/eshopwebmvc:latest
+    ports:
+      - "5106:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ConnectionStrings__CatalogConnection=Server=cloudshirt-db.ctuckmei09i6.us-east-1.rds.amazonaws.com;Database=Microsoft.eShopOnWeb.CatalogDb;User Id=csadmin;Password=Welkom123!;Pooling=False;Connect Timeout=30;
+      - ConnectionStrings__IdentityConnection=Server=cloudshirt-db.ctuckmei09i6.us-east-1.rds.amazonaws.com;Database=Microsoft.eShopOnWeb.Identity;User Id=csadmin;Password=Welkom123!;Pooling=False;Connect Timeout=30;
+      - PublicApi__BaseUrl=http://eshoppublicapi
+    dns:
+      - 169.254.169.253
+    depends_on:
+      - eshoppublicapi
+    networks:
+      - cloudshirt-net
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - node.role == worker
+
+networks:
+  cloudshirt-net:
+    driver: overlay
