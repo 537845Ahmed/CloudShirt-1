@@ -1,9 +1,53 @@
+version: "3.8"
+
+networks:
+  eshop-net:
+    driver: overlay
+    attachable: true
+
 services:
   eshopwebmvc:
     image: 730335381450.dkr.ecr.us-east-1.amazonaws.com/eshopwebmvc:latest
     deploy:
       replicas: 3
+      restart_policy:
+        condition: on-failure
+      update_config:
+        parallelism: 1
+        delay: 10s
+      placement:
+        constraints: [node.role == worker]
+    ports:
+      - target: 80
+        published: 80
+        protocol: tcp
+        mode: ingress
+      - target: 443
+        published: 443
+        protocol: tcp
+        mode: ingress
+    networks:
+      - eshop-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
   eshoppublicapi:
     image: 730335381450.dkr.ecr.us-east-1.amazonaws.com/eshoppublicapi:latest
     deploy:
       replicas: 3
+      restart_policy:
+        condition: on-failure
+    ports:
+      - target: 80
+        published: 5098
+        protocol: tcp
+        mode: ingress
+      - target: 443
+        published: 5106
+        protocol: tcp
+        mode: ingress
+    networks:
+      - eshop-net
