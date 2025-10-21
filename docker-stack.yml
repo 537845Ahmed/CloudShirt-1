@@ -2,13 +2,13 @@ version: "3.9"
 
 services:
   eshoppublicapi:
-    image: 730335381450.dkr.ecr.us-east-1.amazonaws.com/eshoppublicapi:latest
+    image: <ACCOUNT-ID>.dkr.ecr.us-east-1.amazonaws.com/eshoppublicapi:latest
     ports:
       - "5098:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
-      - ConnectionStrings__CatalogConnection=Server=cloudshirt-db.ctuckmei09i6.us-east-1.rds.amazonaws.com;Database=Microsoft.eShopOnWeb.CatalogDb;User Id=csadmin;Password=Welkom123!;
+      - ConnectionStrings__CatalogConnection=Server=<RDS-ENDPOINT>;Database=Microsoft.eShopOnWeb.CatalogDb;User Id=csadmin;Password=Welkom123!;
     dns:
       - 169.254.169.253
     networks:
@@ -22,7 +22,7 @@ services:
           - node.role == worker
 
   eshopwebmvc:
-    image: 730335381450.dkr.ecr.us-east-1.amazonaws.com/eshopwebmvc:latest
+    image: <ACCOUNT-ID>.dkr.ecr.us-east-1.amazonaws.com/eshopwebmvc:latest
     ports:
       - "5106:80"
     environment:
