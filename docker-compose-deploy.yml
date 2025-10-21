@@ -1,9 +1,9 @@
 services:
   eshopwebmvc:
-    image: <vervang mij>.dkr.ecr.us-east-1.amazonaws.com/eshopwebmvc:latest
+    image: 730335381450.dkr.ecr.us-east-1.amazonaws.com/eshopwebmvc:latest
     deploy:
       replicas: 3
   eshoppublicapi:
-    image: <vervang mij>.dkr.ecr.us-east-1.amazonaws.com/eshoppublicapi:latest
+    image: 730335381450.dkr.ecr.us-east-1.amazonaws.com/eshoppublicapi:latest
     deploy:
       replicas: 3
