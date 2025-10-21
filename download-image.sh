@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ECR_URL="730335381450.dkr.ecr.us-east-1.amazonaws.com"
+ECR_URL="${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com"
 IMAGES=("eshopwebmvc:latest" "eshoppublicapi:latest")
 REGION="us-east-1"
 
