@@ -22,4 +22,11 @@ fi
 sed -i "s|$SEARCH_PATTERN|$STRING_TO_INSERT|g" "$TARGET_FILE"
 sed -i "s|$SEARCH_PATTERN|$STRING_TO_INSERT|g" "$TARGET_FILE1"
 
+# Vervang ook in docker-stack.yml als het bestaat
+if [[ -f "docker-stack.yml" ]]; then
+  sed -i "s|$SEARCH_PATTERN|$STRING_TO_INSERT|g" "docker-stack.yml"
+  echo "Vervanging voltooid in docker-stack.yml"
+fi
+
+
 echo "Vervanging voltooid: '$SEARCH_PATTERN' → '$STRING_TO_INSERT' in $TARGET_FILE"
